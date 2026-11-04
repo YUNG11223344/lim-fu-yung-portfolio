@@ -12,26 +12,15 @@
     const savedCount = Number(localStorage.getItem(countKey));
     let currentCount = Number.isFinite(savedCount) && savedCount >= 0 ? savedCount : baseCount;
 
-    if (currentCount > 0) {
-      currentCount = baseCount;
-      localStorage.setItem(countKey, String(currentCount));
-    }
-
     const updateLikeState = () => {
       likeCount.textContent = String(currentCount);
-      likeButton.classList.add('is-liked');
-      likeButton.setAttribute('aria-pressed', 'true');
-      likeButton.querySelector('.like-text').textContent = 'Liked';
+      const isLiked = currentCount > 0;
+      likeButton.classList.toggle('is-liked', isLiked);
+      likeButton.setAttribute('aria-pressed', String(isLiked));
+      likeButton.querySelector('.like-text').textContent = isLiked ? 'Liked' : 'Like Profile';
     };
 
-    if (currentCount > baseCount) {
-      updateLikeState();
-    } else {
-      likeCount.textContent = String(currentCount);
-      likeButton.classList.remove('is-liked');
-      likeButton.setAttribute('aria-pressed', 'false');
-      likeButton.querySelector('.like-text').textContent = 'Like Profile';
-    }
+    updateLikeState();
 
     likeButton.addEventListener('click', () => {
       currentCount += 1;
