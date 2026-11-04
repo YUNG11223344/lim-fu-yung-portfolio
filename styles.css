@@ -346,6 +346,74 @@ body.light-mode .lead { color: var(--muted); }
   gap: 16px;
   margin-top: 28px;
 }
+.profile-like {
+  margin-top: 22px;
+}
+.like-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  color: var(--white);
+  border-radius: 999px;
+  padding: 12px 18px;
+  min-height: 48px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  overflow: visible;
+}
+.like-btn:hover, .like-btn:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(255,110,166,0.5);
+  box-shadow: 0 14px 28px rgba(255, 88, 157, 0.18);
+}
+.like-btn.is-liked {
+  background: linear-gradient(135deg, rgba(255, 88, 157, 0.18), rgba(255, 113, 197, 0.22));
+  border-color: rgba(230, 61, 61, 0.6);
+}
+.like-icon {
+  font-size: 1.1rem;
+  color: #d34343;
+}
+.like-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.08);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+.like-burst {
+  position: absolute;
+  left: 50%;
+  top: -8px;
+  color: #e03535;
+  font-size: 1.1rem;
+  animation: love-pop 0.7s ease forwards;
+  pointer-events: none;
+  text-shadow: 0 0 18px rgba(224, 59, 47, 0.7);
+}
+@keyframes love-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 0) scale(0.5);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -14px) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -42px) scale(1.7);
+  }
+}
 .primary-btn, .secondary-btn, .whatsapp-btn {
   display: inline-flex;
   align-items: center;
@@ -388,6 +456,14 @@ body.light-mode .secondary-btn {
 body.light-mode .whatsapp-btn {
   color: #0d3d28;
   background: linear-gradient(135deg, rgba(37, 211, 102, 0.14) 0%, rgba(37, 211, 102, 0.24) 100%);
+}
+body.light-mode .like-btn {
+  background: rgba(255,255,255,0.7);
+  color: var(--text);
+  border-color: rgba(20, 37, 59, 0.12);
+}
+body.light-mode .like-count {
+  background: rgba(0, 0, 0, 0.04);
 }
 .primary-btn:hover, .secondary-btn:hover, .whatsapp-btn:hover, .primary-btn:focus-visible, .secondary-btn:focus-visible, .whatsapp-btn:focus-visible {
   transform: translateY(-2px);

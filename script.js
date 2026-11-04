@@ -1,8 +1,56 @@
 ﻿document.addEventListener('DOMContentLoaded', () => {
   const yearElement = document.getElementById('year');
   const toggleButton = document.getElementById('themeToggle');
+  const likeButton = document.getElementById('likeButton');
+  const likeCount = document.getElementById('likeCount');
   const mouseGlow = document.querySelector('.mouse-glow');
   const mouseTrail = document.querySelector('.mouse-glow-trail');
+
+  if (likeButton && likeCount) {
+    const countKey = 'portfolio-like-count';
+    const baseCount = 0;
+    const savedCount = Number(localStorage.getItem(countKey));
+    let currentCount = Number.isFinite(savedCount) && savedCount >= 0 ? savedCount : baseCount;
+
+    if (currentCount > 0) {
+      currentCount = baseCount;
+      localStorage.setItem(countKey, String(currentCount));
+    }
+
+    const updateLikeState = () => {
+      likeCount.textContent = String(currentCount);
+      likeButton.classList.add('is-liked');
+      likeButton.setAttribute('aria-pressed', 'true');
+      likeButton.querySelector('.like-text').textContent = 'Liked';
+    };
+
+    if (currentCount > baseCount) {
+      updateLikeState();
+    } else {
+      likeCount.textContent = String(currentCount);
+      likeButton.classList.remove('is-liked');
+      likeButton.setAttribute('aria-pressed', 'false');
+      likeButton.querySelector('.like-text').textContent = 'Like Profile';
+    }
+
+    likeButton.addEventListener('click', () => {
+      currentCount += 1;
+      localStorage.setItem(countKey, String(currentCount));
+      updateLikeState();
+
+      const burst = document.createElement('span');
+      burst.className = 'like-burst';
+      burst.textContent = '❤';
+      const rect = likeButton.getBoundingClientRect();
+      burst.style.left = `${rect.width / 2}px`;
+      burst.style.top = `${-8}px`;
+      likeButton.appendChild(burst);
+
+      setTimeout(() => {
+        burst.remove();
+      }, 700);
+    });
+  }
 
   if (yearElement) {
     yearElement.textContent = new Date().getFullYear();
