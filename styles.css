@@ -75,6 +75,7 @@ body.light-mode .site-header {
   justify-content: space-between;
   min-height: 74px;
   gap: 16px;
+  flex-wrap: wrap;
 }
 .brand {
   color: var(--white);
@@ -90,6 +91,7 @@ body.light-mode .brand { color: var(--text); }
   justify-content: center;
   flex-wrap: wrap;
   gap: 22px;
+  flex: 1;
 }
 .main-nav a {
   position: relative;
@@ -122,7 +124,10 @@ body.light-mode .main-nav a:hover, body.light-mode .main-nav a:focus-visible { c
   padding: 9px 14px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
+  min-width: 110px;
+  flex-shrink: 0;
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
