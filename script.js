@@ -1,10 +1,76 @@
 ﻿document.addEventListener('DOMContentLoaded', () => {
   const yearElement = document.getElementById('year');
   const toggleButton = document.getElementById('themeToggle');
+  const mouseGlow = document.querySelector('.mouse-glow');
+  const mouseTrail = document.querySelector('.mouse-glow-trail');
 
   if (yearElement) {
     yearElement.textContent = new Date().getFullYear();
   }
+
+  if (mouseGlow && mouseTrail) {
+    let trailPoints = [];
+
+    const updateTrail = (x, y) => {
+      trailPoints.push({ x, y, life: 1 });
+      trailPoints = trailPoints.slice(-14);
+
+      const trailEls = [...document.querySelectorAll('.trail-dot')];
+      trailEls.forEach((el) => el.remove());
+
+      trailPoints.forEach((point, index) => {
+        const el = document.createElement('span');
+        el.className = 'trail-dot';
+        el.style.left = `${point.x}px`;
+        el.style.top = `${point.y}px`;
+        el.style.opacity = String(Math.max(0.1, point.life * 0.9));
+        el.style.transform = `translate(-50%, -50%) scale(${1 + index * 0.08})`;
+        document.body.appendChild(el);
+      });
+
+      trailPoints.forEach((point) => {
+        point.life *= 0.82;
+      });
+      trailPoints = trailPoints.filter((point) => point.life > 0.05);
+    };
+
+    window.addEventListener('pointermove', (event) => {
+      mouseGlow.style.left = `${event.clientX}px`;
+      mouseGlow.style.top = `${event.clientY}px`;
+      mouseGlow.style.opacity = '1';
+      mouseTrail.style.left = `${event.clientX}px`;
+      mouseTrail.style.top = `${event.clientY}px`;
+      mouseTrail.style.opacity = '1';
+      updateTrail(event.clientX, event.clientY);
+    });
+
+    window.addEventListener('pointerleave', () => {
+      mouseGlow.style.opacity = '0';
+      mouseTrail.style.opacity = '0';
+      [...document.querySelectorAll('.trail-dot')].forEach((el) => el.remove());
+    });
+
+    document.addEventListener('pointerenter', () => {
+      mouseGlow.style.opacity = '1';
+      mouseTrail.style.opacity = '1';
+    });
+  }
+
+  const interactiveCards = document.querySelectorAll('.about-card, .highlight-box, .experience-card, .project-card, .reference-card, .skill-group, .contact-box');
+  interactiveCards.forEach((card) => {
+    card.addEventListener('pointermove', (event) => {
+      const rect = card.getBoundingClientRect();
+      const x = ((event.clientX - rect.left) / rect.width) * 100;
+      const y = ((event.clientY - rect.top) / rect.height) * 100;
+      card.style.setProperty('--x', `${x}%`);
+      card.style.setProperty('--y', `${y}%`);
+    });
+
+    card.addEventListener('pointerleave', () => {
+      card.style.setProperty('--x', '50%');
+      card.style.setProperty('--y', '50%');
+    });
+  });
 
   const applyTheme = (theme) => {
     const isLight = theme === 'light';
