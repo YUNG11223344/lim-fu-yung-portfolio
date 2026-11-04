@@ -1,4 +1,4 @@
-﻿document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', () => {
   const yearElement = document.getElementById('year');
   const toggleButton = document.getElementById('themeToggle');
   const likeButton = document.getElementById('likeButton');
